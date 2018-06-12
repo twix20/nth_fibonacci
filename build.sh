@@ -1,6 +1,6 @@
 #clean previous build
-rm -rf build fibonacci_pkg dist *.egg-info
-rm -f *.pyd
+rm -rf build fibonacci_pkg dist *.egg-info __pycache__
+rm -f *.pyd *.spec
 
 if [[ $* == --clean ]]; then
     exit 0
