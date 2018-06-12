@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <Python.h>
 
-typedef unsigned long long ulong_t
+typedef unsigned long long ulong_t;
 
 void multiply(ulong_t F[2][2], ulong_t M[2][2])
 {
@@ -41,19 +41,19 @@ ulong_t fib_nth(ulong_t n)
  
 static PyObject * nth_wrapper(PyObject * self, PyObject * args)
 {
-    ulong_t* input;
+    ulong_t input;
     ulong_t result;
     PyObject * ret;
 
     // parse arguments
-    if (!PyArg_ParseTuple(args, "n", &input)) {
+    if (!PyArg_ParseTuple(args, "K", &input)) {
         return NULL;
     }
 
     // run the actual function
-    result = fib_nth(*input);
+    result = fib_nth(input);
 
-    // build the resulting ulong_t into a Python object.
+    // build the resulting ulong_t ulong_to a Python object.
     ret = PyLong_FromUnsignedLongLong(result);
     return ret;
 }
@@ -75,6 +75,6 @@ PyModuleDef fibonacci_mod = {
 	NULL
 };
 
-PyMODINIT_FUNC PyInit_helloworld(void) {
+PyMODINIT_FUNC PyInit_fibonacci(void) {
 	return PyModule_Create(&fibonacci_mod);
 }
