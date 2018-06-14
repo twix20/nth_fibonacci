@@ -1,1 +1,1 @@
-python setup.py build_ext --inplace
+./build.sh
