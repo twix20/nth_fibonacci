@@ -1,5 +1,5 @@
 #clean previous build
-rm -rf build fibonacci_pkg dist *.egg-info __pycache__
+rm -rf build fibonacci dist *.egg-info __pycache__
 rm -f *.pyd *.spec
 
 if [[ $* == --clean ]]; then
@@ -10,9 +10,10 @@ fi
 python setup_ext.py build_ext --inplace
 
 #create module
-mkdir --parents ./fibonacci_pkg
-mv fibonacci.*.pyd ./fibonacci_pkg
-touch ./fibonacci_pkg/__init__.py
+mkdir --parents ./fibonacci
+mv fibonacci.*.pyd ./fibonacci
+cp fibonacci_core.py ./fibonacci
+touch ./fibonacci/__init__.py
 
 #dist wheel
-python setup_dist.py sdist bdist_wheel
+python setup.py sdist bdist_wheel
