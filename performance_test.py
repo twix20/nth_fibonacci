@@ -1,5 +1,8 @@
 from timeit import default_timer as timer
 from fibonacci import fibonacci
+import sys
+
+sys.setrecursionlimit(1500)
 
 def fib_nth(n):
     """
@@ -24,12 +27,16 @@ def multiply(F, M):
     F[1][1] = w
 
 def power(F, n):
+    if n == 0 or n == 1:
+        return
+
     M = [[1,1],[1,0]]
 
-    for _ in range(n - 1):
+    power(F, int(n/2))
+    multiply(F, F)
+
+    if n%2 != 0:
         multiply(F, M)
-
-
 
 def stress(fib, n, times):
     start = timer()
@@ -43,8 +50,12 @@ def stress(fib, n, times):
 
 
 N = 45
-TIMES = 90000
+TIMES = 900000
 result_format = '{0}: {1}s'
+
+
+print(fibonacci.nth(N))
+print(fib_nth(N))
 
 print('Nth fibbonaci performance tester')
 print('Find {0}th fib {1} times'.format(N, TIMES))

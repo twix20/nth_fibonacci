@@ -1,0 +1,1 @@
+pip install pyinstaller && pyinstaller -F performance_test.py
