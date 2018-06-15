@@ -12,7 +12,6 @@ python setup_ext.py build_ext --inplace
 #create module
 mkdir --parents ./fibonacci
 mv fibonacci.*.pyd ./fibonacci
-cp fibonacci_core.py ./fibonacci
 touch ./fibonacci/__init__.py
 
 #dist wheel
