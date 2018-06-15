@@ -1,44 +1,13 @@
 from timeit import default_timer as timer
-from fibonacci import fibonacci
 import sys
 
-sys.setrecursionlimit(1500)
+from fibonacci import fibonacci as cpp_fib
+import python_fib as py_fib
 
-def fib_nth(n):
+def benchmark(fib, n, times):
     """
-        Python implementation of nth fib
+        Stresses fib function with N number x times
     """
-    F = [[1,1],[1,0]]
-    if n == 0:
-        return 0
-
-    power(F, n-1)
-    return F[0][0]
-
-def multiply(F, M):
-    x =  F[0][0]*M[0][0] + F[0][1]*M[1][0]
-    y =  F[0][0]*M[0][1] + F[0][1]*M[1][1]
-    z =  F[1][0]*M[0][0] + F[1][1]*M[1][0]
-    w =  F[1][0]*M[0][1] + F[1][1]*M[1][1]
-
-    F[0][0] = x
-    F[0][1] = y
-    F[1][0] = z
-    F[1][1] = w
-
-def power(F, n):
-    if n == 0 or n == 1:
-        return
-
-    M = [[1,1],[1,0]]
-
-    power(F, int(n/2))
-    multiply(F, F)
-
-    if n%2 != 0:
-        multiply(F, M)
-
-def stress(fib, n, times):
     start = timer()
 
     for _ in range(times):
@@ -49,15 +18,16 @@ def stress(fib, n, times):
     return end - start
 
 
-N = 45
-TIMES = 900000
-result_format = '{0}: {1}s'
+if __name__ == "__main__":
+    assert len(sys.argv) == 3, 'Example usage python {0} 50 1000, 50th fib number 1000 times'.format(sys.argv[0])
 
+    N = int(sys.argv[1])
+    TIMES = int(sys.argv[2])
 
-print(fibonacci.nth(N))
-print(fib_nth(N))
+    assert cpp_fib.nth(N) == py_fib.nth(N), 'C++ and Python result is not the same'
 
-print('Nth fibbonaci performance tester')
-print('Find {0}th fib {1} times'.format(N, TIMES))
-print(result_format.format('C++', stress(fibonacci.nth, N, TIMES)))
-print(result_format.format('Python', stress(fib_nth, N, TIMES)))
+    result_format = '{0}: {1}s'
+    print('Nth fibbonaci performance tester')
+    print('Find {0}th fib {1} times'.format(N, TIMES))
+    print(result_format.format('C++', benchmark(cpp_fib.nth, N, TIMES)))
+    print(result_format.format('Python', benchmark(py_fib.nth, N, TIMES)))
