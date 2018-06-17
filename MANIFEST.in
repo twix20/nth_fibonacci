@@ -1,1 +1,2 @@
 recursive-include fibonacci *.pyd
+recursive-include fibonacci *.so
